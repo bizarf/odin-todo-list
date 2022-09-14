@@ -6,11 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="./main.js"></script>
+    <script src="./main.js" defer></script>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
-    <div></div>
+    <div class="container">
+        <header>Header goes here</header>
+        <div class="sidebar">
+            <h2>Tasks</h2>
+            <button class="navBtns" id="allTasks">All tasks</button>
+            <button class="navBtns" id="today">Today</button>
+            <button class="navBtns" id="thisWeek">This Week</button>
+            <h2>Projects</h2>
+            <button class="navBtns" id="addProject">Add Project</button>
+        </div>
+        <div class="main-content">
+        </div>
+        <footer>Copyright @ 2022 Bizarf</footer>
+    </div>
 </body>
 
 </html>
