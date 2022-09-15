@@ -1,10 +1,11 @@
 import {
     navigation,
-    loadTasks
+    loadTasks,
+    taskModal
 } from "./modules/DOM.js";
 import {
-    addTask
-} from "./modules/todos.js";
+    taskStorage
+} from "./modules/storage.js";
 
 // navigation buttons
 const navButtons = () => {
@@ -27,7 +28,12 @@ const navButtons = () => {
     })
 }
 
-navigation.allTasks()
-navButtons()
-addTask("This is a test", "Test", "22/01/2022", "High")
-loadTasks()
+function init() {
+    navigation.allTasks()
+    navButtons()
+    loadTasks()
+    taskModal.taskFormInit()
+    console.log(taskStorage.tasks)
+}
+
+init()

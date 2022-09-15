@@ -3,7 +3,7 @@ const taskStorage = (() => {
     let tasks = JSON.parse(localStorage.getItem("tasks"))
 
     const saveTasks = () => {
-        localStorage.setItem("tasks", JSON.stringify(tasks))
+        localStorage.setItem("tasks", JSON.stringify(taskStorage.tasks))
     }
     return {
         tasks,

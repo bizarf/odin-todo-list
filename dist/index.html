@@ -21,7 +21,29 @@
             <h2>Projects</h2>
             <button class="navBtns" id="addProject">Add Project</button>
         </div>
-        <div class="main-content">
+        <div class="main-container">
+            <div class="taskModal">
+                <form action="" class="addTaskForm">
+                    <span class="taskFormClose">&times;</span>
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title">
+                    <label for="description">Description:</label>
+                    <input type="text" name="description" id="description">
+                    <label for="dueDate">Date due:</label>
+                    <input type="date" name="dueDate" id="dueDate">
+                    <label for="priority">Priority:</label>
+                    <select name="priority" id="priority">
+                        <option value="None">None</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                    <button id="taskAddButton">Add</button>
+                    <button id="taskCancelButton">Cancel</button>
+                </form>
+            </div>
+            <div class="main-content">
+            </div>
         </div>
         <footer>Copyright @ 2022 Bizarf</footer>
     </div>
