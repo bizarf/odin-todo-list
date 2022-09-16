@@ -2,7 +2,7 @@ import {
     taskStorage
 } from "./storage.js"
 import {
-    loadTasks
+    taskLoader
 } from "./DOM.js"
 
 class Task {
@@ -24,14 +24,10 @@ function addTask(title, description, dueDate, priority) {
     taskStorage.tasks.push(task)
     taskStorage.saveTasks()
     // }
-    loadTasks()
+    taskLoader.allTasks()
 }
 
 export {
     Task,
-    addTask
+    addTask,
 }
-
-import {
-    format
-} from "date-fns";

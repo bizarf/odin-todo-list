@@ -15,11 +15,11 @@
         <header>Header goes here</header>
         <div class="sidebar">
             <h2>Tasks</h2>
-            <button class="navBtns" id="allTasks">All tasks</button>
-            <button class="navBtns" id="today">Today</button>
-            <button class="navBtns" id="thisWeek">This Week</button>
+            <button class="navBtns" data-tab-target="#allTasks">All tasks</button>
+            <button class="navBtns" data-tab-target="#today">Today</button>
+            <button class="navBtns" data-tab-target="#thisWeek">This Week</button>
             <h2>Projects</h2>
-            <button class="navBtns" id="addProject">Add Project</button>
+            <button class="navBtns">Add Project</button>
         </div>
         <div class="main-container">
             <div class="taskModal">
@@ -43,6 +43,19 @@
                 </form>
             </div>
             <div class="main-content">
+                <div id="allTasks" data-tab-content class="active">
+                    <h2>All Tasks</h2>
+                    <span><button class="addTaskButton">&plus;</button></span>
+                    <ul id="allList"></ul>
+                </div>
+                <div id="today" data-tab-content>
+                    <h2>Today</h2>
+                    <ul id="todayList"></ul>
+                </div>
+                <div id="thisWeek" data-tab-content>
+                    <h2>This Week</h2>
+                    <ul id="weekList"></ul>
+                </div>
             </div>
         </div>
         <footer>Copyright @ 2022 Bizarf</footer>

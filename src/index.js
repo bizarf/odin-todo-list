@@ -1,39 +1,32 @@
 import {
-    navigation,
-    loadTasks,
-    taskModal
+    taskLoader
 } from "./modules/DOM.js";
+import {
+    taskModal
+} from "./modules/modal.js";
 import {
     taskStorage
 } from "./modules/storage.js";
 
-// navigation buttons
-const navButtons = () => {
-    let main = document.querySelector(".main-content")
-    let buttons = document.querySelectorAll(".navBtns")
-    buttons.forEach(element => {
-        element.addEventListener("click", (e) => {
-            while (main.firstChild) main.removeChild(main.firstChild);
-            if (e.target.id === "allTasks") {
-                navigation.allTasks()
-                loadTasks()
-            } else if (e.target.id === "today") {
-                navigation.today()
-                loadTasks()
-            } else if (e.target.id === "thisWeek") {
-                navigation.thisWeek()
-                loadTasks()
-            }
+const tabs = document.querySelectorAll("[data-tab-target]")
+const tabContent = document.querySelectorAll("[data-tab-content]")
+
+tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+        const target = document.querySelector(tab.dataset.tabTarget)
+        tabContent.forEach(tabContent => {
+            tabContent.classList.remove("active")
         })
+        target.classList.add("active")
     })
-}
+})
 
 function init() {
-    navigation.allTasks()
-    navButtons()
-    loadTasks()
     taskModal.taskFormInit()
-    console.log(taskStorage.tasks)
+    taskLoader.allTasks()
+    taskLoader.todayTasks()
+    taskLoader.weekTasks()
+    // console.log(taskStorage.tasks)
 }
 
 init()

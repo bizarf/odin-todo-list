@@ -2,27 +2,29 @@ import {
     taskStorage
 } from "./storage.js";
 import {
-    addTask
-} from "./todos.js";
+    format,
+    isThisISOWeek,
+} from "date-fns";
 
-const navigation = (() => {
-    const allTasks = () => {
-        mainContentGenerator.headerMaker("All Tasks")
-        mainContentGenerator.addTaskBtn()
-        taskModal.taskFormInit()
-    }
-    const today = () => {
-        mainContentGenerator.headerMaker("Today")
-    }
-    const thisWeek = () => {
-        mainContentGenerator.headerMaker("This Week")
-    }
-    return {
-        allTasks,
-        today,
-        thisWeek
-    }
-})()
+// const navigation = (() => {
+//     const allTasks = () => {
+//         mainContentGenerator.headerMaker("All Tasks")
+//         mainContentGenerator.addTaskBtn()
+//         taskModal.taskFormInit()
+//     }
+//     const today = () => {
+//         mainContentGenerator.headerMaker("Today")
+//         taskLoader.todayTasks()
+//     }
+//     const thisWeek = () => {
+//         mainContentGenerator.headerMaker("This Week")
+//     }
+//     return {
+//         allTasks,
+//         today,
+//         thisWeek
+//     }
+// })()
 
 const mainContentGenerator = (() => {
     // creates the header for each tab
@@ -49,19 +51,50 @@ const mainContentGenerator = (() => {
     }
 })()
 
-function loadTasks() {
-    let ul = document.querySelector("#list")
-    while (ul.firstChild) ul.removeChild(ul.firstChild)
-    if (taskStorage.tasks === null) {
-        taskStorage.tasks = []
-    } else {
-        for (let task of taskStorage.tasks) {
-            let li = document.createElement("li")
-            li.textContent = `${task.title}, ${task.description}`;
-            ul.appendChild(li);
+const taskLoader = (() => {
+    // loads all the tasks in the array
+    const allTasks = () => {
+        let ul = document.querySelector("#allList")
+        while (ul.firstChild) ul.removeChild(ul.firstChild)
+        if (taskStorage.tasks === null) {
+            taskStorage.tasks = []
+        } else {
+            for (let task of taskStorage.tasks) {
+                let li = document.createElement("li")
+                li.textContent = `${task.title}, ${task.description}, ${task.dueDate}`;
+                ul.appendChild(li);
+            }
         }
     }
-}
+    // loads up tasks from the array that match today
+    const todayTasks = () => {
+        for (let task of taskStorage.tasks) {
+            if (format(new Date(), "P") === task.dueDate) {
+                let ul = document.querySelector("#todayList")
+                let li = document.createElement("li")
+                li.textContent = `${task.title}, ${task.description}, ${task.dueDate}`;
+                ul.appendChild(li);
+            }
+        }
+    }
+    // loads up tasks from the array that match the current week
+    const weekTasks = () => {
+        for (let task of taskStorage.tasks) {
+            if (isThisISOWeek(new Date(task.dueDate)) === true) {
+                console.log(task);
+                let ul = document.querySelector("#weekList")
+                let li = document.createElement("li")
+                li.textContent = `${task.title}, ${task.description}, ${task.dueDate}`;
+                ul.appendChild(li);
+            }
+        }
+    }
+    return {
+        allTasks,
+        todayTasks,
+        weekTasks,
+    }
+})()
 
 // clears the current list on the page
 function clear() {
@@ -69,72 +102,6 @@ function clear() {
     while (ul.firstChild) ul.removeChild(ul.firstChild)
 }
 
-// modal form coding
-const taskModal = (() => {
-    const modal = document.querySelector(".taskModal")
-
-    // the button that opens the form
-    const taskBtnClick = () => {
-        const taskBtn = document.querySelector(".addTaskButton")
-        taskBtn.onclick = () => {
-            modal.style.display = "block";
-        }
-    }
-
-    // when you click outside of the form
-    const outsideFormClick = () => {
-        window.onclick = (event) => {
-            if (event.target === modal) {
-                modal.style.display = "none";
-            }
-        }
-    }
-
-    // the x on the top right
-    const taskFormClose = () => {
-        const span = document.querySelector(".taskFormClose")
-        span.onclick = () => {
-            modal.style.display = "none"
-        }
-    }
-
-    const addTaskBtnForm = () => {
-        const button = document.querySelector("#taskAddButton");
-        const title = document.querySelector("#title");
-        const description = document.querySelector("#description");
-        const dueDate = document.querySelector("#dueDate");
-        const priority = document.querySelector("#priority");
-        button.onclick = (e) => {
-            modal.style.display = "none"
-            e.preventDefault()
-            addTask(title.value, description.value, dueDate.value, priority.value)
-        }
-    }
-
-    // cancel button
-    const taskFormCancel = () => {
-        const button = document.querySelector("#taskCancelButton")
-        button.onclick = (e) => {
-            modal.style.display = "none"
-            e.preventDefault()
-        }
-    }
-
-    const taskFormInit = () => {
-        taskBtnClick()
-        outsideFormClick()
-        taskFormClose()
-        addTaskBtnForm()
-        taskFormCancel()
-    }
-
-    return {
-        taskFormInit
-    }
-})()
-
 export {
-    navigation,
-    loadTasks,
-    taskModal
+    taskLoader
 }
