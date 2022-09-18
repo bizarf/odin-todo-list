@@ -1,8 +1,12 @@
 import {
+    taskFunctions,
     taskLoader
 } from "./modules/DOM.js";
 import {
-    taskModal
+    taskModal,
+    projectModal,
+    taskInfoModal,
+    editTaskModal
 } from "./modules/modal.js";
 import {
     taskStorage
@@ -23,10 +27,14 @@ tabs.forEach(tab => {
 
 function init() {
     taskModal.taskFormInit()
+    projectModal.projectFormInit()
     taskLoader.allTasks()
     taskLoader.todayTasks()
     taskLoader.weekTasks()
-    // console.log(taskStorage.tasks)
+    taskInfoModal.taskInfoFormInit()
+    editTaskModal.editTaskFormInit()
+    taskFunctions.deleteTaskBtn()
+    console.log(taskStorage.tasks)
 }
 
 init()
