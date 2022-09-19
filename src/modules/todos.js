@@ -2,9 +2,8 @@ import {
     taskStorage
 } from "./storage.js"
 import {
-    taskLoader,
-    taskFunctions
-} from "./DOM.js"
+    init
+} from "../index.js"
 
 class Task {
     constructor(title, description, dueDate, priority, id) {
@@ -18,19 +17,10 @@ class Task {
 
 function addTask(title, description, dueDate, priority) {
     let task = new Task(title, description, dueDate, priority)
-    // checks if the localStorage is empty
-    // if (localStorage.getItem("tasks") === null) {
-    //     taskStorage.tasks = []
-    //     taskStorage.tasks.push(task)
-    // } else {
     taskStorage.tasks.push(task)
     assignTaskId()
     taskStorage.saveTasks()
-    // }
-    taskLoader.allTasks()
-    taskLoader.todayTasks()
-    taskLoader.weekTasks()
-    taskFunctions.deleteTaskBtn()
+    init()
 }
 
 // gives each task an id number based on their position in the array

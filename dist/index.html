@@ -35,7 +35,7 @@
                     <input type="date" name="dueDate" id="dueDate">
                     <label for="priority">Priority:</label>
                     <select name="priority" id="priority">
-                        <option value="None">None</option>
+                        <option value="None" selected="selected">None</option>
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
                         <option value="High">High</option>
@@ -57,20 +57,19 @@
                 <form class="infoForm">
                     <span class="infoFormClose">&times;</span>
                     <label for="title">Title</label>
-                    <input type="text" name="title" id="infoTitle" required>
+                    <input type="text" name="title" id="infoTitle" readonly>
                     <label for="description">Description:</label>
-                    <input type="text" name="description" id="infoDescription">
+                    <input type="text" name="description" id="infoDescription" readonly>
                     <label for="dueDate">Date due:</label>
-                    <input type="date" name="dueDate" id="infoDueDate">
+                    <input type="date" name="dueDate" id="infoDueDate" readonly>
                     <label for="priority">Priority:</label>
-                    <input type="text" name="priority" id="infoPriority">
-                    <button id="infoAddButton">Add</button>
-                    <button id="infoCancelButton">Cancel</button>
+                    <input type="text" name="priority" id="infoPriority" readonly>
+                    <button id="infoOkButton">OK</button>
                 </form>
             </div>
             <div class="editModal">
                 <form class="editForm">
-                    <span class="taskFormClose">&times;</span>
+                    <span class="editTaskFormClose">&times;</span>
                     <label for="title">Title</label>
                     <input type="text" name="title" id="editTitle" required>
                     <label for="description">Description:</label>
@@ -79,13 +78,14 @@
                     <input type="date" name="dueDate" id="editDueDate">
                     <label for="priority">Priority:</label>
                     <select name="priority" id="editPriority">
-                        <option value="None">None</option>
+                        <option value="None" selected>None</option>
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
                         <option value="High">High</option>
                     </select>
                     <button id="editAddButton">Add</button>
                     <button id="editCancelButton">Cancel</button>
+                    <input type="hidden" name="dataId" id="dataId">
                 </form>
             </div>
             <!-- main content -->

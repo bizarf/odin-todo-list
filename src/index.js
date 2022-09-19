@@ -8,9 +8,6 @@ import {
     taskInfoModal,
     editTaskModal
 } from "./modules/modal.js";
-import {
-    taskStorage
-} from "./modules/storage.js";
 
 const tabs = document.querySelectorAll("[data-tab-target]")
 const tabContent = document.querySelectorAll("[data-tab-content]")
@@ -34,7 +31,10 @@ function init() {
     taskInfoModal.taskInfoFormInit()
     editTaskModal.editTaskFormInit()
     taskFunctions.deleteTaskBtn()
-    console.log(taskStorage.tasks)
 }
 
 init()
+
+export {
+    init
+}
