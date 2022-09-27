@@ -40,14 +40,12 @@ function init() {
     taskInfoModal.taskInfoFormInit()
     editTaskModal.editTaskFormInit()
     taskFunctions.taskFunctionsInit()
-    // projectDelete(taskStorage.tasks, projectStorage.projects)
     tabsController()
+    projectDelete()
 }
 
 console.log(projectStorage.projects)
 console.log(taskStorage.tasks)
-
-console.log(projectStorage.projects[1].projectTitle)
 
 export {
     init

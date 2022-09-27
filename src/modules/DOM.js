@@ -65,7 +65,7 @@ const taskLoader = (() => {
         infoBtn.dataset.id = task.id
         infoBtn.id = "infoBtn"
         infoBtn.classList = "fa-solid fa-info"
-        infoBtn.dataset.projectId = task.projectId
+        infoBtn.dataset.projectTitle = task.projectTitle
         editTaskBtn.dataset.id = task.id
         editTaskBtn.id = "editTaskBtn"
         editTaskBtn.classList = "fa-regular fa-pen-to-square";
@@ -96,7 +96,7 @@ const taskLoader = (() => {
         allTasks()
         todayTasks()
         weekTasks()
-        renderChecks()
+        // renderChecks()
     }
     return {
         taskLoaderInit,
@@ -162,8 +162,8 @@ const projectLoader = (() => {
             newBtn.dataset.tabTarget = `#project-${project.projectTitle}`
             const span = document.createElement("button")
             span.classList = "fa-regular fa-trash-can"
-            span.dataset.projectId = project.projectId;
             span.id = "projectDeleteBtn"
+            span.dataset.projectTitle = project.projectTitle;
             container.appendChild(newBtn)
             container.appendChild(span)
             projectButtons.appendChild(container)
@@ -201,7 +201,7 @@ const projectLoader = (() => {
                 taskStorage.tasks = []
             }
             for (let task of taskStorage.tasks) {
-                if (task.projectId === project.projectId) {
+                if (task.projectTitle === project.projectTitle) {
                     taskLoader.listDom(`#${project.projectTitle}List`, task)
                 }
             }
@@ -221,16 +221,28 @@ const projectLoader = (() => {
     }
 })()
 
-const projectDelete = (tasks, projects) => {
+const projectDelete = () => {
     const projectDeleteBtn = document.querySelectorAll("#projectDeleteBtn")
-    const projectBtn = document.querySelectorAll(".projectButton")
 
     projectDeleteBtn.forEach(button => {
         button.addEventListener("click", () => {
+            console.log(button.dataset.projectTitle)
+            const pTitle = projectStorage.projects.map(projects => {
+                return projects.projectTitle
+            })
+            const index = pTitle.indexOf(button.dataset.projectTitle)
+            projectStorage.projects.splice(index, 1)
             // projectStorage.projects.splice(button.dataset.projectId, 1)
-            // while (projectContainer.firstChild) projectContainer.removeChild(projectContainer.firstChild)
+            for (let i = taskStorage.tasks.length - 1; i >= 0; i--) {
+                if (taskStorage.tasks[i].projectTitle === button.dataset.projectTitle) {
+                    taskStorage.tasks.splice([i], 1)
+                }
+            }
+            while (projectContainer.firstChild) projectContainer.removeChild(projectContainer.firstChild)
             // assignProjectId()
-            // init()
+            taskStorage.saveTasks()
+            projectStorage.saveProjects()
+            init()
         })
     })
 }

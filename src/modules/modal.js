@@ -36,7 +36,7 @@ const taskModal = (() => {
             while (project.firstChild) project.removeChild(project.firstChild)
             for (let title of projectStorage.projects) {
                 const option = document.createElement("option")
-                option.value = title.projectId;
+                option.value = title.projectTitle;
                 option.textContent = title.projectTitle;
                 project.appendChild(option)
             }
@@ -59,9 +59,9 @@ const taskModal = (() => {
                 form.reportValidity()
             } else {
                 if (dueDate.value === "") {
-                    addTask(parseInt(project.value), title.value, description.value, dueDate.value, priority.value, false)
+                    addTask(project.value, title.value, description.value, dueDate.value, priority.value, false)
                 } else {
-                    addTask(parseInt(project.value), title.value, description.value, format(new Date(dueDate.value), "P"), priority.value, false)
+                    addTask(project.value, title.value, description.value, format(new Date(dueDate.value), "P"), priority.value, false)
                 }
                 modal.style.display = "none"
             }
@@ -145,7 +145,7 @@ const taskInfoModal = (() => {
             button.addEventListener("click", () => {
                 modal.style.display = "block";
                 const id = button.dataset.id
-                const projectId = button.dataset.projectId
+                const projectId = button.dataset.projectTitle
                 const title = document.querySelector("#infoTitle")
                 const description = document.querySelector("#infoDescription")
                 const dueDate = document.querySelector("#infoDueDate")
@@ -160,7 +160,7 @@ const taskInfoModal = (() => {
                 title.value = taskStorage.tasks[id].title;
                 description.value = taskStorage.tasks[id].description;
                 priority.value = taskStorage.tasks[id].priority;
-                project.value = projectStorage.projects[projectId].projectTitle;
+                project.value = projectId;
             })
         })
     }
@@ -211,11 +211,11 @@ const editTaskModal = (() => {
                 while (project.firstChild) project.removeChild(project.firstChild)
                 for (let title of projectStorage.projects) {
                     const option = document.createElement("option")
-                    option.value = title.projectId;
+                    option.value = title.projectTitle;
                     option.textContent = title.projectTitle;
                     project.appendChild(option)
                 }
-                project.value = taskStorage.tasks[id].projectId
+                project.value = taskStorage.tasks[id].projectTitle
             })
         })
     }
@@ -243,11 +243,13 @@ const editTaskModal = (() => {
                     taskStorage.tasks[dataId.value].description = description.value;
                     taskStorage.tasks[dataId.value].dueDate = dueDate.value;
                     taskStorage.tasks[dataId.value].priority = priority.value;
+                    taskStorage.tasks[dataId.value].projectTitle = project.value;
                 } else {
                     taskStorage.tasks[dataId.value].title = title.value;
                     taskStorage.tasks[dataId.value].description = description.value;
                     taskStorage.tasks[dataId.value].dueDate = format(new Date(dueDate.value), "P");
                     taskStorage.tasks[dataId.value].priority = priority.value;
+                    taskStorage.tasks[dataId.value].projectTitle = project.value;
                 }
                 taskStorage.saveTasks()
                 init()

@@ -6,28 +6,24 @@ import {
     init
 } from "../index.js"
 
-class ProjectId {
-    constructor(projectId) {
-        this.projectId = projectId
+class ProjectTitle {
+    constructor(projectTitle) {
+        this.projectTitle = projectTitle
     }
 }
 
-class Project extends ProjectId {
-    constructor(projectTitle, projectId) {
-        super(projectId)
-        this.projectTitle = projectTitle;
+class Project extends ProjectTitle {
+    constructor(projectTitle) {
+        super(projectTitle)
+        // this.projectTitle = projectTitle;
         // this.projectId = projectId;
         projectStorage.projects.push(this)
     }
-
-    get projectTitle() {
-        return this.projectTitle
-    }
 }
 
-function addProject(projectTitle, projectId) {
-    new Project(projectTitle, projectId)
-    assignProjectId()
+function addProject(projectTitle) {
+    new Project(projectTitle)
+    // assignProjectId()
     projectStorage.saveProjects()
     init()
 }
@@ -40,10 +36,11 @@ function assignProjectId() {
     })
 }
 
-class Task extends ProjectId {
-    constructor(projectId, title, description, dueDate, priority, isComplete, id) {
+class Task extends ProjectTitle {
+    constructor(projectTitle, title, description, dueDate, priority, isComplete, id) {
         // this.projectId = projectId
-        super(projectId)
+        // super(projectId)
+        super(projectTitle)
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -54,9 +51,8 @@ class Task extends ProjectId {
     }
 }
 
-function addTask(projectId, title, description, dueDate, priority, isComplete) {
-    new Task(projectId, title, description, dueDate, priority, isComplete)
-    // taskStorage.tasks.push(task)
+function addTask(projectTitle, title, description, dueDate, priority, isComplete) {
+    new Task(projectTitle, title, description, dueDate, priority, isComplete)
     assignTaskId()
     taskStorage.saveTasks()
     init()
