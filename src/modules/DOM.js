@@ -1,4 +1,5 @@
 import {
+    projectStorage,
     taskStorage
 } from "./storage.js";
 import {
@@ -6,7 +7,8 @@ import {
     isThisISOWeek,
 } from "date-fns";
 import {
-    assignTaskId
+    assignTaskId,
+    assignProjectId
 } from "./todos.js"
 import {
     init
@@ -22,17 +24,18 @@ const taskLoader = (() => {
             taskStorage.tasks = []
         } else {
             for (let task of taskStorage.tasks) {
-                _listDom("#allList", task)
+                listDom("#allList", task)
             }
         }
     }
+
     // loads up tasks from the array that match today
     const todayTasks = () => {
         let ul = document.querySelector("#todayList")
         while (ul.firstChild) ul.removeChild(ul.firstChild)
         for (let task of taskStorage.tasks) {
             if (format(new Date(), "P") === task.dueDate) {
-                _listDom("#todayList", task)
+                listDom("#todayList", task)
             }
         }
     }
@@ -42,23 +45,27 @@ const taskLoader = (() => {
         while (ul.firstChild) ul.removeChild(ul.firstChild)
         for (let task of taskStorage.tasks) {
             if (isThisISOWeek(new Date(task.dueDate)) === true) {
-                _listDom("#weekList", task)
+                listDom("#weekList", task)
             }
         }
     }
     // DOM creation function which makes the lists
-    const _listDom = (list, task) => {
-        let ul = document.querySelector(list)
+    const listDom = (list, task) => {
+        const ul = document.querySelector(list)
         const div = document.createElement("div")
         const dateDiv = document.createElement("div")
         const li = document.createElement("li")
-        li.textContent = `${task.title}`;
+        const titleDiv = document.createElement("div")
+        titleDiv.textContent = `${task.title}`;
+        titleDiv.classList = "listItem"
+        titleDiv.dataset.id = task.id
         const deleteTaskBtn = document.createElement("span")
         const editTaskBtn = document.createElement("span")
         const infoBtn = document.createElement("span")
         infoBtn.dataset.id = task.id
         infoBtn.id = "infoBtn"
         infoBtn.classList = "fa-solid fa-info"
+        infoBtn.dataset.projectId = task.projectId
         editTaskBtn.dataset.id = task.id
         editTaskBtn.id = "editTaskBtn"
         editTaskBtn.classList = "fa-regular fa-pen-to-square";
@@ -67,24 +74,39 @@ const taskLoader = (() => {
         deleteTaskBtn.dataset.id = task.id
         dateDiv.textContent = task.dueDate
         div.classList = "rightListTask";
-        div.appendChild(dateDiv)
-        div.appendChild(infoBtn)
-        div.appendChild(editTaskBtn)
-        div.appendChild(deleteTaskBtn)
+        div.appendChild(dateDiv);
+        div.appendChild(infoBtn);
+        div.appendChild(editTaskBtn);
+        div.appendChild(deleteTaskBtn);
+        li.appendChild(titleDiv);
         li.appendChild(div);
         ul.appendChild(li);
     }
+    // sets a class which has a cross through to mark completed tasks
+    const renderChecks = () => {
+        const titleDiv = document.querySelectorAll(".listItem")
+        titleDiv.forEach(task => {
+            if (taskStorage.tasks[task.dataset.id].isComplete === true) {
+                task.classList.add("taskCompleted")
+            }
+        })
+    }
 
+    const taskLoaderInit = () => {
+        allTasks()
+        todayTasks()
+        weekTasks()
+        renderChecks()
+    }
     return {
-        allTasks,
-        todayTasks,
-        weekTasks,
+        taskLoaderInit,
+        listDom
     }
 })()
 
 const taskFunctions = (() => {
     // delete button function on a task item
-    const deleteTaskBtn = () => {
+    const _deleteTaskBtn = () => {
         const deleteTaskX = document.querySelectorAll("#deleteTaskBtn")
 
         deleteTaskX.forEach(button => {
@@ -96,16 +118,126 @@ const taskFunctions = (() => {
             })
         })
     }
+
+    const _taskMarking = () => {
+        const titleDiv = document.querySelectorAll(".listItem")
+        titleDiv.forEach(task => {
+            task.addEventListener("click", () => {
+                if (taskStorage.tasks[task.dataset.id].isComplete === false) {
+                    task.classList.add("taskCompleted")
+                    taskStorage.tasks[task.dataset.id].isComplete = true;
+                } else if (taskStorage.tasks[task.dataset.id].isComplete === true) {
+                    task.classList.remove("taskCompleted")
+                    taskStorage.tasks[task.dataset.id].isComplete = false;
+                }
+                taskStorage.saveTasks()
+                init()
+            })
+        })
+    }
+
+    const taskFunctionsInit = () => {
+        _deleteTaskBtn();
+        _taskMarking();
+    }
     return {
-        deleteTaskBtn
+        taskFunctionsInit
     }
 })()
 
-const loadProjects = (() => {
+const projectLoader = (() => {
+    // loads up the buttons on the side nav bar
+    const projectBtnLoad = () => {
+        const projectButtons = document.querySelector(".projectButtons")
+        while (projectButtons.firstChild) projectButtons.removeChild(projectButtons.firstChild)
+        if (projectStorage.projects === null) {
+            projectStorage.projects = [];
+        }
+        for (let project of projectStorage.projects) {
+            const container = document.createElement("div")
+            container.classList = "projectBtns"
+            const newBtn = document.createElement("a");
+            newBtn.textContent = project.projectTitle;
+            newBtn.classList = "projectButton";
+            newBtn.dataset.tabTarget = `#project-${project.projectTitle}`
+            const span = document.createElement("button")
+            span.classList = "fa-regular fa-trash-can"
+            span.dataset.projectId = project.projectId;
+            span.id = "projectDeleteBtn"
+            container.appendChild(newBtn)
+            container.appendChild(span)
+            projectButtons.appendChild(container)
+        }
+    }
 
-})
+    // creates the divs that hold the project lists
+    const projectPageCreation = () => {
+        const projectContainer = document.querySelector("#projectContainer")
+        for (let project of projectStorage.projects) {
+            const mainContent = document.querySelector(".main-content")
+            const div = document.createElement("div")
+            const h2 = document.createElement("h2")
+            const ul = document.createElement("ul")
+            const hr = document.createElement("hr")
+            div.id = `project-${project.projectTitle}`
+            div.dataset.tabContent = "";
+            h2.textContent = project.projectTitle;
+            ul.id = `${project.projectTitle}List`
+            div.appendChild(h2);
+            div.appendChild(hr);
+            div.appendChild(ul);
+            projectContainer.appendChild(div)
+            mainContent.appendChild(projectContainer);
+        }
+    }
+
+    // creates tasks lists for projects based on their titles
+    const projectTasks = () => {
+        for (let project of projectStorage.projects) {
+            let ul = document.querySelector(`#${project.projectTitle}List`)
+            const projectDeleteBtn = document.querySelectorAll("#projectDeleteBtn")
+            while (ul.firstChild) ul.removeChild(ul.firstChild)
+            if (taskStorage.tasks === null) {
+                taskStorage.tasks = []
+            }
+            for (let task of taskStorage.tasks) {
+                if (task.projectId === project.projectId) {
+                    taskLoader.listDom(`#${project.projectTitle}List`, task)
+                }
+            }
+        }
+    }
+
+    const projectLoaderInit = () => {
+        projectBtnLoad();
+        projectPageCreation();
+        projectTasks();
+    }
+    return {
+        projectLoaderInit,
+        projectBtnLoad,
+        projectPageCreation,
+        projectTasks
+    }
+})()
+
+const projectDelete = (tasks, projects) => {
+    const projectDeleteBtn = document.querySelectorAll("#projectDeleteBtn")
+    const projectBtn = document.querySelectorAll(".projectButton")
+
+    projectDeleteBtn.forEach(button => {
+        button.addEventListener("click", () => {
+            // projectStorage.projects.splice(button.dataset.projectId, 1)
+            // while (projectContainer.firstChild) projectContainer.removeChild(projectContainer.firstChild)
+            // assignProjectId()
+            // init()
+        })
+    })
+}
 
 export {
     taskLoader,
-    taskFunctions
+    taskFunctions,
+    projectLoader,
+    projectDelete
 }

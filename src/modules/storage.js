@@ -16,7 +16,7 @@ const projectStorage = (() => {
     let projects = JSON.parse(localStorage.getItem("projects"));
 
     const saveProjects = () => {
-        localStorage.setItem("projects", JSON.stringify(projects))
+        localStorage.setItem("projects", JSON.stringify(projectStorage.projects))
     }
     return {
         projects,

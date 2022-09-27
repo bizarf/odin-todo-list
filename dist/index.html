@@ -15,11 +15,12 @@
         <header>Header goes here</header>
         <!-- navigation -->
         <div class="sidebar">
-            <h2>Tasks</h2>
+            <h3>Tasks</h3>
             <button class="navBtns" data-tab-target="#allTasks">All tasks</button>
             <button class="navBtns" data-tab-target="#today">Today</button>
             <button class="navBtns" data-tab-target="#thisWeek">This Week</button>
-            <h2>Projects</h2>
+            <h3>Projects</h3>
+            <div class="projectButtons"></div>
             <button class="navBtns" id="addProjectBtn">Add Project</button>
         </div>
         <div class="main-container">
@@ -40,17 +41,24 @@
                         <option value="Medium">Medium</option>
                         <option value="High">High</option>
                     </select>
+                    <label for="project">Project:</label>
+                    <select name="project" id="project" required></select>
                     <button id="taskAddButton">Add</button>
                     <button id="taskCancelButton">Cancel</button>
                 </form>
             </div>
             <div class="projectModal">
                 <form class="addProjectForm">
-                    <span class="projectFormClose">&times;</span>
-                    <label for="projectTitle">Title:</label>
-                    <input type="text" name="projectTitle" id="projectTitle" required>
-                    <button id="projectAddButton">Add</button>
-                    <button id="projectCancelButton">Cancel</button>
+                    <div class="projectFormMain">
+                        <label for="projectTitle">Title:</label>
+                        <input type="text" name="projectTitle" id="projectTitle" required>
+                        <span id="projectTitleError">Please use a different title</span>
+                        <div>
+                            <button id="projectAddButton">Add</button>
+                            <button id="projectCancelButton">Cancel</button>
+                        </div>
+                    </div>
+                    <div><span class="projectFormClose">&times;</span></div>
                 </form>
             </div>
             <div class="infoModal">
@@ -64,6 +72,8 @@
                     <input type="date" name="dueDate" id="infoDueDate" readonly>
                     <label for="priority">Priority:</label>
                     <input type="text" name="priority" id="infoPriority" readonly>
+                    <label for="project">Project:</label>
+                    <input type="text" name="project" id="infoProject" readonly>
                     <button id="infoOkButton">OK</button>
                 </form>
             </div>
@@ -83,6 +93,8 @@
                         <option value="Medium">Medium</option>
                         <option value="High">High</option>
                     </select>
+                    <label for="project">Project:</label>
+                    <select name="project" id="editProject" required></select>
                     <button id="editAddButton">Add</button>
                     <button id="editCancelButton">Cancel</button>
                     <input type="hidden" name="dataId" id="dataId">
@@ -91,18 +103,24 @@
             <!-- main content -->
             <div class="main-content">
                 <div id="allTasks" data-tab-content class="active">
-                    <h2>All Tasks</h2>
-                    <span><button class="addTaskButton">&plus;</button></span>
+                    <div id="allTasksWithAddBtn">
+                        <h2>All Tasks</h2>
+                        <span><button class="addTaskButton">&plus;</button></span>
+                    </div>
+                    <hr>
                     <ul id="allList"></ul>
                 </div>
                 <div id="today" data-tab-content>
                     <h2>Today</h2>
+                    <hr>
                     <ul id="todayList"></ul>
                 </div>
                 <div id="thisWeek" data-tab-content>
                     <h2>This Week</h2>
+                    <hr>
                     <ul id="weekList"></ul>
                 </div>
+                <div id="projectContainer"></div>
             </div>
         </div>
         <footer>Copyright @ 2022 Bizarf</footer>
