@@ -28,14 +28,6 @@ function addProject(projectTitle) {
     init()
 }
 
-function assignProjectId() {
-    projectStorage.projects.forEach(() => {
-        for (let i = 0; i < projectStorage.projects.length; i++) {
-            projectStorage.projects[i].projectId = i;
-        }
-    })
-}
-
 class Task extends ProjectTitle {
     constructor(projectTitle, title, description, dueDate, priority, isComplete, id) {
         // this.projectId = projectId
@@ -71,6 +63,5 @@ export {
     addTask,
     assignTaskId,
     addProject,
-    assignProjectId,
     Project
 }

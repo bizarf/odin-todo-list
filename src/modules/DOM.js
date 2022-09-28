@@ -8,7 +8,6 @@ import {
 } from "date-fns";
 import {
     assignTaskId,
-    assignProjectId
 } from "./todos.js"
 import {
     init
@@ -82,7 +81,7 @@ const taskLoader = (() => {
         li.appendChild(div);
         ul.appendChild(li);
     }
-    // sets a class which has a cross through to mark completed tasks
+    // // sets a class which has a cross through to mark completed tasks
     const renderChecks = () => {
         const titleDiv = document.querySelectorAll(".listItem")
         titleDiv.forEach(task => {
@@ -96,7 +95,7 @@ const taskLoader = (() => {
         allTasks()
         todayTasks()
         weekTasks()
-        // renderChecks()
+        renderChecks()
     }
     return {
         taskLoaderInit,
@@ -154,13 +153,13 @@ const projectLoader = (() => {
             projectStorage.projects = [];
         }
         for (let project of projectStorage.projects) {
-            const container = document.createElement("div")
+            const container = document.createElement("button")
             container.classList = "projectBtns"
-            const newBtn = document.createElement("a");
+            const newBtn = document.createElement("div");
             newBtn.textContent = project.projectTitle;
             newBtn.classList = "projectButton";
             newBtn.dataset.tabTarget = `#project-${project.projectTitle}`
-            const span = document.createElement("button")
+            const span = document.createElement("div")
             span.classList = "fa-regular fa-trash-can"
             span.id = "projectDeleteBtn"
             span.dataset.projectTitle = project.projectTitle;
@@ -226,7 +225,6 @@ const projectDelete = () => {
 
     projectDeleteBtn.forEach(button => {
         button.addEventListener("click", () => {
-            console.log(button.dataset.projectTitle)
             const pTitle = projectStorage.projects.map(projects => {
                 return projects.projectTitle
             })
@@ -239,7 +237,7 @@ const projectDelete = () => {
                 }
             }
             while (projectContainer.firstChild) projectContainer.removeChild(projectContainer.firstChild)
-            // assignProjectId()
+            assignTaskId()
             taskStorage.saveTasks()
             projectStorage.saveProjects()
             init()

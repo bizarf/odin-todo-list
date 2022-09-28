@@ -44,9 +44,6 @@ function init() {
     projectDelete()
 }
 
-console.log(projectStorage.projects)
-console.log(taskStorage.tasks)
-
 export {
     init
 }

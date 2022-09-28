@@ -9,12 +9,6 @@ body {
     height: 100%;
 }
 
-.header,
-.main-content,
-.sidebar {
-    border: solid;
-}
-
 .container {
     display: grid;
     grid-template-columns: 200px auto;
@@ -24,7 +18,9 @@ body {
 
 header {
     grid-column: 1 / -1;
-    text-align: center;
+    display: flex;
+    box-shadow: 0 1px 3px black;
+    background-color: #94a3b8;
 }
 
 footer {
@@ -32,6 +28,8 @@ footer {
     text-align: center;
     font-size: 12px;
     padding: 5px;
+    box-shadow: 0 -1px 3px black;
+    background-color: #94a3b8;
 }
 
 /* tabbed navigation */
@@ -46,6 +44,7 @@ footer {
 .sidebar {
     display: flex;
     flex-direction: column;
+    box-shadow: 1px 0 3px -1px black;
 }
 
 button {
@@ -61,7 +60,7 @@ button {
     flex-direction: column;
 }
 
-/* task form modal css */
+/* form modal css */
 .taskModal,
 .projectModal,
 .infoModal,
@@ -77,58 +76,74 @@ button {
     top: 0;
 }
 
-.addTaskForm {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    width: 40%;
-}
-
-.taskFormClose,
 .projectFormClose,
-.infoFormClose,
 .editTaskFormClose {
     float: right;
     font-size: 20px;
     cursor: pointer;
 }
 
+.taskFormMain,
+.projectFormMain,
+.infoFormMain,
+.editFormMain {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.addTaskForm,
+.infoForm,
+.editForm {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+.taskFormClose,
+.infoFormClose,
+.editTaskFormClose {
+    position: absolute;
+    top: 12%;
+    right: 32%;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.addTaskForm input,
+select,
+.infoForm input,
+.addProjectForm input,
+.editForm input {
+    margin-bottom: 1em;
+}
+
+.addTaskForm button,
+.infoForm button,
+.addProjectForm button,
+.editForm button {
+    width: 40%;
+    text-align: center;
+}
+
 /* project form modal */
 .addProjectForm {
     display: flex;
     justify-content: space-between;
-    /* flex-direction: column; */
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 10% auto;
     padding: 20px;
-    width: 40%;
-}
-
-.projectFormMain {
-    display: flex;
-    flex-direction: column;
+    width: 25%;
 }
 
 #projectTitleError {
     display: none;
 }
 
-/* info modal */
-.infoForm {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    width: 40%;
-}
-
-/* edit modal */
-.editForm {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    width: 40%;
-}
-
+/* marks a line through a completed task */
 .taskCompleted {
     text-decoration: line-through;
 }
@@ -172,12 +187,7 @@ li {
 .projectButton {
     display: flex;
     flex-grow: 1;
-    border: 1px solid;
     cursor: pointer;
-}
-
-.projectDeleteBtn {
-    border: 0;
 }
 
 /* affects page with all tasks */
