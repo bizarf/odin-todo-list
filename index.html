@@ -12,7 +12,11 @@
 
 <body>
     <div class="container">
-        <header>Header goes here</header>
+        <!-- header -->
+        <header>
+            <img src="./icons/task-svgrepo-com.svg" alt="Logo" style="width:30px;">
+            <h2>To Do</h2>
+        </header>
         <!-- navigation -->
         <div class="sidebar">
             <h3>Tasks</h3>
@@ -25,33 +29,39 @@
         </div>
         <div class="main-container">
             <!-- modal -->
+            <!-- task form modal -->
             <div class="taskModal">
-                <form action="" class="addTaskForm">
-                    <span class="taskFormClose">&times;</span>
-                    <label for="title">Title</label>
-                    <input type="text" name="title" id="title" required>
-                    <label for="description">Description:</label>
-                    <input type="text" name="description" id="description">
-                    <label for="dueDate">Date due:</label>
-                    <input type="date" name="dueDate" id="dueDate">
-                    <label for="priority">Priority:</label>
-                    <select name="priority" id="priority">
-                        <option value="None" selected="selected">None</option>
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                    </select>
-                    <label for="project">Project:</label>
-                    <select name="project" id="project" required></select>
-                    <button id="taskAddButton">Add</button>
-                    <button id="taskCancelButton">Cancel</button>
+                <form class="addTaskForm">
+                    <div class="taskFormMain">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="title" required>
+                        <label for="description">Description:</label>
+                        <input type="text" name="description" id="description">
+                        <label for="dueDate">Date due:</label>
+                        <input type="date" name="dueDate" id="dueDate">
+                        <label for="priority">Priority:</label>
+                        <select name="priority" id="priority">
+                            <option value="None" selected="selected">None</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                        <label for="project">Project:</label>
+                        <select name="project" id="project" required></select>
+                        <div>
+                            <button id="taskAddButton">Add</button>
+                            <button id="taskCancelButton">Cancel</button>
+                        </div>
+                    </div>
+                    <div><span class="taskFormClose">&times;</span></div>
                 </form>
             </div>
+            <!-- project adding form modal -->
             <div class="projectModal">
                 <form class="addProjectForm">
                     <div class="projectFormMain">
                         <label for="projectTitle">Title:</label>
-                        <input type="text" name="projectTitle" id="projectTitle" required>
+                        <input type="text" name="projectTitle" id="projectTitle" required maxlength="20">
                         <span id="projectTitleError">Please use a different title</span>
                         <div>
                             <button id="projectAddButton">Add</button>
@@ -61,43 +71,51 @@
                     <div><span class="projectFormClose">&times;</span></div>
                 </form>
             </div>
+            <!-- modal for info form with task details -->
             <div class="infoModal">
                 <form class="infoForm">
-                    <span class="infoFormClose">&times;</span>
-                    <label for="title">Title</label>
-                    <input type="text" name="title" id="infoTitle" readonly>
-                    <label for="description">Description:</label>
-                    <input type="text" name="description" id="infoDescription" readonly>
-                    <label for="dueDate">Date due:</label>
-                    <input type="date" name="dueDate" id="infoDueDate" readonly>
-                    <label for="priority">Priority:</label>
-                    <input type="text" name="priority" id="infoPriority" readonly>
-                    <label for="project">Project:</label>
-                    <input type="text" name="project" id="infoProject" readonly>
-                    <button id="infoOkButton">OK</button>
+                    <div class="infoFormMain">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="infoTitle" readonly>
+                        <label for="description">Description:</label>
+                        <input type="text" name="description" id="infoDescription" readonly>
+                        <label for="dueDate">Date due:</label>
+                        <input type="date" name="dueDate" id="infoDueDate" readonly>
+                        <label for="priority">Priority:</label>
+                        <input type="text" name="priority" id="infoPriority" readonly>
+                        <label for="project">Project:</label>
+                        <input type="text" name="project" id="infoProject" readonly>
+                        <button id="infoOkButton">OK</button>
+                    </div>
+                    <div><span class="infoFormClose">&times;</span></div>
                 </form>
             </div>
+            <!-- modal with form to edit the tasks -->
             <div class="editModal">
                 <form class="editForm">
-                    <span class="editTaskFormClose">&times;</span>
-                    <label for="title">Title</label>
-                    <input type="text" name="title" id="editTitle" required>
-                    <label for="description">Description:</label>
-                    <input type="text" name="description" id="editDescription">
-                    <label for="dueDate">Date due:</label>
-                    <input type="date" name="dueDate" id="editDueDate">
-                    <label for="priority">Priority:</label>
-                    <select name="priority" id="editPriority">
-                        <option value="None" selected>None</option>
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                    </select>
-                    <label for="project">Project:</label>
-                    <select name="project" id="editProject" required></select>
-                    <button id="editAddButton">Add</button>
-                    <button id="editCancelButton">Cancel</button>
-                    <input type="hidden" name="dataId" id="dataId">
+                    <div class="editFormMain">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="editTitle" required>
+                        <label for="description">Description:</label>
+                        <input type="text" name="description" id="editDescription">
+                        <label for="dueDate">Date due:</label>
+                        <input type="date" name="dueDate" id="editDueDate">
+                        <label for="priority">Priority:</label>
+                        <select name="priority" id="editPriority">
+                            <option value="None" selected>None</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                        <label for="project">Project:</label>
+                        <select name="project" id="editProject" required></select>
+                        <div>
+                            <button id="editAddButton">Add</button>
+                            <button id="editCancelButton">Cancel</button>
+                        </div>
+                        <input type="hidden" name="dataId" id="dataId">
+                    </div>
+                    <div><span class="editTaskFormClose">&times;</span></div>
                 </form>
             </div>
             <!-- main content -->
@@ -123,6 +141,7 @@
                 <div id="projectContainer"></div>
             </div>
         </div>
+        <!-- footer -->
         <footer>Copyright @ 2022 Bizarf</footer>
     </div>
 </body>
