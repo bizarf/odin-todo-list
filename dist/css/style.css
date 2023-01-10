@@ -33,6 +33,32 @@ header {
     margin-right: 10px;
 }
 
+.logoutBtn {
+    margin-right: 10px;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    padding: 5px;
+}
+
+.displayName {
+    display: none;
+}
+
+.avatar {
+    display: none;
+    margin-right: 10px;
+    width: 40px;
+}
+
+.rightHeader {
+    display: flex;
+    align-items: center;
+}
+
 footer {
     grid-column: 1 / -1;
     text-align: center;

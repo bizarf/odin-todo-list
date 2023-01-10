@@ -14,11 +14,11 @@ class Project extends ProjectTitle {
     }
 }
 
-function addProject(projectTitle) {
+const addProject = (projectTitle) => {
     new Project(projectTitle);
     projectStorage.saveProjects();
     init();
-}
+};
 
 class Task extends ProjectTitle {
     constructor(
@@ -41,27 +41,26 @@ class Task extends ProjectTitle {
     }
 }
 
-function addTask(
+const addTask = (
     projectTitle,
     title,
     description,
     dueDate,
     priority,
     isComplete
-) {
+) => {
     new Task(projectTitle, title, description, dueDate, priority, isComplete);
-    // assignTaskId();
     taskStorage.saveTasks();
     init();
-}
+};
 
 // gives each task an id number based on their position in the array
-function assignTaskId() {
+const assignTaskId = () => {
     taskStorage.tasks.forEach(() => {
         for (let i = 0; i < taskStorage.tasks.length; i++) {
             taskStorage.tasks[i].id = i;
         }
     });
-}
+};
 
 export { addTask, assignTaskId, addProject, Project };
